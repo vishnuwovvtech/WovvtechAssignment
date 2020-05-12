@@ -16,7 +16,6 @@ export default class Data extends Component {
     }
 
     render() {
-        console.log('paraks',JSON.stringify(this.props.route.params.jsondata));
         return(
             <>
                 <Container>
