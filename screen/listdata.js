@@ -84,23 +84,19 @@ export default class List extends Component {
     }
 
     search() {
-        // for(var i =0; i<= this.state.data.length; i++) {
-        //     if(this.state.data[i].title.search(this.state.search) > 1) {
-        //         console.log('search data', this.state.data[i].title.search(this.state.search) > 1 )
-        //     }
-            // const result = str.search(this.state.search);
-            
-        // }
-        
         console.log('callaing ')
          this.state.data.map(
              (key, i) => {
                 //  console.log('search', key.title.search(this.state.search)); 
                 if(key.title.search(this.state.search)>-1) {
-                    console.log('found', this.state.tempArr[i]);
-                    this.state.data.push(this.state.data[i]);
+                    console.log('found', this.state.data[i]);
+                    this.state.tempArr.push(this.state.data[i]);
+                    // this.setState({tempArr: this.state.data[i]})
+                    console.log('temp', this.state.tempArr);
+                    this.setState({data: []});
+                    this.setState({data: this.state.tempArr});
                     console.log('array', this.state.tempArr);
-                    alert(JSON.stringify(this.state.data[i]));
+                    // alert(JSON.stringify(this.state.data[i]));
                 }
              }
          )
