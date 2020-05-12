@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Container, Text } from 'native-base';
-import {Asyncstorage, AsyncStorage} from 'react-native';
 
 export default class Data extends Component {
     constructor(props) {

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {TextInput, StyleSheet, View, AsyncStorage} from 'react-native';
+import {TextInput, StyleSheet, View} from 'react-native';
 import {Container, Text, Button, Picker, Card, CardItem, Body} from 'native-base';
 import Axios from 'axios';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
@@ -61,7 +61,6 @@ export default class List extends Component {
     parseData(key) {
         console.log('key',key);
         this.props.navigation.push('Data', {jsondata: key});
-        AsyncStorage.setItem('data', key);
     }
 
     search() {
