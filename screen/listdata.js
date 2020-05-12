@@ -12,7 +12,8 @@ export default class List extends Component {
             search: '',
             filter: 'date', 
             data: [], 
-            page: 0
+            page: 0,
+            searchdata: []
         }
     }
     
@@ -48,16 +49,29 @@ export default class List extends Component {
              })
     }
    
-    componentWillMount() {
-        setInterval(() => {
-            this.getApiData();
-            this.setState({page: this.state.page + 1});
-            console.log('page', this.state.page)
-        }, 3000);
+    componentDidMount() {
+        this.getApiData();
+        // setInterval(() => {
+        //     this.getApiData();
+        //     this.setState({page: this.state.page + 1});
+        //     console.log('page', this.state.page)
+        // }, 100000);
     }
 
     parseData(key) {
         this.props.navigation.push('Data', { data : key});
+    }
+
+    search() {
+        // console.log('search',this.state.data.filter( ser => ser.title === this.state.filter));
+        for (var i=0 ; i < this.state.data.length ; i++)
+{
+    if (this.state.data[0]['title'] == this.state.filter) {
+        this.setState({searchdata: this.state.data[i]});
+        
+    }
+    console.log('datta', this.state.searchdata);
+}
     }
     render() {
       return(
@@ -69,7 +83,7 @@ export default class List extends Component {
          <View style={{flex: 1, alignItems: 'center', justifyContent:'space-around', flexDirection: 'row', flexWrap: 'wrap'}}>
             <TextInput onChangeText={text => this.onhandleChange(text)} style={styles.inputField} />
 
-            <TouchableOpacity style={{backgroundColor: '#1d60cc', padding: 12}} onPress={this.getApiData()}>
+            <TouchableOpacity style={{backgroundColor: '#1d60cc', padding: 12}} onPress={this.search()}>
                 <Text style={{color: '#ffffff'}}>Search</Text>
             </TouchableOpacity>
             <Picker note mode="dialog" onValueChange={(val) => this.onValueChange(val)} selectedValue={this.state.filter}  style={{width: "40%", }}>
