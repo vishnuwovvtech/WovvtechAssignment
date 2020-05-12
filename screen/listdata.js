@@ -70,7 +70,7 @@ export default class List extends Component {
             this.getApiData();
             this.setState({page: this.state.page + 1});
             console.log('page', this.state.page)
-        }, 100000);
+        }, 5000);
     }
 
     parseData(key) {
