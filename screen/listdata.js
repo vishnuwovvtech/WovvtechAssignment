@@ -22,27 +22,20 @@ export default class List extends Component {
         this.setState({search: text});
     }
 
+    sortByProperty(property){  
+        return function(a,b){  
+           if(a[property] > b[property])  
+              return 1;  
+           else if(a[property] < b[property])  
+              return -1;  
+       
+           return 0;  
+        }  
+     }
+   
     onValueChange(val) {
         this.setState({filter: val});
-        // const temp = [];
-        // for(var i = 0; i<= this.state.data.length; i++) {
-        //     console.log('data length', this.state.data[i].created_at_i);
-        //     for(var j=1; j <= this.state.data.length; j++) {
-        //         console.log('j', this.state.data[j].created_at_i);
-        //         if(this.state.data[i].created_at_i >= this.state.data[j].created_at_i) {
-        //             temp.push(this.state.data[i]);
-        //             console.log('temp', temp);
-        //             console.log('greator')
-        //         } else {
-        //             temp.push(this.state.data[j]);
-        //             console.log('temp j', temp)
-        //             console.log('lesser');
-        //         }
-        //     }
-           
-        // }
-        
-        // console.log('temp arr',temp);
+          
         if(this.state.filter == 'title') {
             this.state.data.map(
                 (key, i) => {
@@ -50,7 +43,7 @@ export default class List extends Component {
                     
                 });
      } else if(this.state.filter == 'created_at') {
-         console.log('labelling based on title');
+        this.state.data.sort(this.sortByProperty('title'));
      }
     }
      
@@ -130,9 +123,9 @@ export default class List extends Component {
                    (key, i) => {
                        return(
                         <>
-                         <View >
+                         <View key={Date.now()}>
                         <TouchableOpacity onPress={() => this.parseData(key)}>
-                        <Card key={i} >
+                        <Card  >
               
               <CardItem>
                   <View style={{flex: 1, flexDirection: 'row'}}>
