@@ -4,22 +4,10 @@ import {Container, Text} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import List from './screen/listdata';
+import Data from './screen/parsedata';
 const stack = createStackNavigator();
 
 
-class Data extends Component {
-  render() {
-    return(
-      <>
-      <View>
-        <Text>
-          Hello DAta!!!
-        </Text>
-      </View>
-      </>
-    )
-  }
-}
 export default class App extends Component {
     render() {
       return (

@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-import { Text } from 'native-base';
-
+import { Container, Text } from 'native-base';
+import {Asyncstorage, AsyncStorage} from 'react-native';
 
 export default class Data extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            jsondata :{}
+            jsondata :''
         }
     }
-    componentWillMount() {
-        this.props.navigation.getParams(this.setState({jsondata: key}))
-    }
-    render() {
 
+    componentWillMount() {
+        // this.setState({jsondata: this.props.navigation.getParam('data')})
+       this.setState({jsondata:JSON.stringify(this.props.route.params.jsondata)});
+       this.forceUpdate();
+    }
+
+    render() {
+        console.log('paraks',JSON.stringify(this.props.route.params.jsondata));
         return(
             <>
                 <Container>

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {TextInput, StyleSheet, View} from 'react-native';
+import {TextInput, StyleSheet, View, AsyncStorage} from 'react-native';
 import {Container, Text, Button, Picker, Card, CardItem, Body} from 'native-base';
 import Axios from 'axios';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
@@ -51,27 +51,25 @@ export default class List extends Component {
    
     componentDidMount() {
         this.getApiData();
-        // setInterval(() => {
-        //     this.getApiData();
-        //     this.setState({page: this.state.page + 1});
-        //     console.log('page', this.state.page)
-        // }, 100000);
+        setInterval(() => {
+            this.getApiData();
+            this.setState({page: this.state.page + 1});
+            console.log('page', this.state.page)
+        }, 100000);
     }
 
     parseData(key) {
-        this.props.navigation.push('Data', { data : key});
+        console.log('key',key);
+        this.props.navigation.push('Data', {jsondata: key});
+        AsyncStorage.setItem('data', key);
     }
 
     search() {
-        // console.log('search',this.state.data.filter( ser => ser.title === this.state.filter));
-        for (var i=0 ; i < this.state.data.length ; i++)
-{
-    if (this.state.data[i]['title'] == this.state.filter) {
-        this.setState({searchdata: this.state.data[i]});
-        
-    }
-    console.log('datta', this.state.searchdata);
-}
+        const searchkey = this.state.search;
+        const index = this.state.data.findIndex(function(key, index){
+            return key.author === searchkey
+        });
+        console.log('filter', index);
     }
     render() {
       return(
@@ -99,7 +97,7 @@ export default class List extends Component {
                        return(
                         <>
                          <View >
-                         <Card key={i} onPress={() => this.parseData(key)}>
+                         <Card key={i} onTouchStart={() => this.parseData(key)}>
               
               <CardItem>
                   <View style={{flex: 1, flexDirection: 'row'}}>
