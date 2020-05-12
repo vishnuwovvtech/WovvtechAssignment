@@ -24,33 +24,34 @@ export default class List extends Component {
 
     onValueChange(val) {
         this.setState({filter: val});
-        const temp = [];
-        for(var i = 0; i<= this.state.data.length; i++) {
-            console.log('data length', this.state.data[i].created_at_i);
-            for(var j=1; j <= this.state.data.length; j++) {
-                console.log('j', this.state.data[j].created_at_i);
-                if(this.state.data[i].created_at_i >= this.state.data[j].created_at_i) {
-                    temp.push(this.state.data[i]);
-                    console.log('temp', temp);
-                    console.log('greator')
-                } else {
-                    temp.push(this.state.data[j]);
-                    console.log('temp j', temp)
-                    console.log('lesser');
-                }
-            }
+        // const temp = [];
+        // for(var i = 0; i<= this.state.data.length; i++) {
+        //     console.log('data length', this.state.data[i].created_at_i);
+        //     for(var j=1; j <= this.state.data.length; j++) {
+        //         console.log('j', this.state.data[j].created_at_i);
+        //         if(this.state.data[i].created_at_i >= this.state.data[j].created_at_i) {
+        //             temp.push(this.state.data[i]);
+        //             console.log('temp', temp);
+        //             console.log('greator')
+        //         } else {
+        //             temp.push(this.state.data[j]);
+        //             console.log('temp j', temp)
+        //             console.log('lesser');
+        //         }
+        //     }
            
-        }
-        
-        console.log('temp arr',temp);
-        // if(val == 'title') {
-        //     this.state.data.sort();
-        // } else if( val == 'date') {
-        //     this.state.data.sort(function(a, b){ 
-      
-        //         return new Date(a.created_at) - new Date(b.created_at); 
-        //     }); 
         // }
+        
+        // console.log('temp arr',temp);
+        if(this.state.filter == 'title') {
+            this.state.data.map(
+                (key, i) => {
+                    console.log('filter', this.state.data.sort((a,b) => a.created_at_i - b.created_at_i));
+                    
+                });
+     } else if(this.state.filter == 'created_at') {
+         console.log('labelling based on title');
+     }
     }
      
     getApiData() {
@@ -85,21 +86,25 @@ export default class List extends Component {
 
     search() {
         console.log('callaing ')
-         this.state.data.map(
-             (key, i) => {
-                //  console.log('search', key.title.search(this.state.search)); 
-                if(key.title.search(this.state.search)>-1) {
-                    console.log('found', this.state.data[i]);
-                    this.state.tempArr.push(this.state.data[i]);
-                    // this.setState({tempArr: this.state.data[i]})
-                    console.log('temp', this.state.tempArr);
-                    this.setState({data: []});
-                    this.setState({data: this.state.tempArr});
-                    console.log('array', this.state.tempArr);
-                    // alert(JSON.stringify(this.state.data[i]));
+         if(this.state.search != '') {
+            this.state.data.map(
+                (key, i) => {
+                   //  console.log('search', key.title.search(this.state.search)); 
+                   if(key.title.search(this.state.search)>-1) {
+                       console.log('found', this.state.data[i]);
+                       this.state.tempArr.push(this.state.data[i]);
+                       // this.setState({tempArr: this.state.data[i]})
+                       console.log('temp', this.state.tempArr);
+                       this.setState({data: []});
+                       this.setState({data: this.state.tempArr});
+                       console.log('array', this.state.tempArr);
+                       // alert(JSON.stringify(this.state.data[i]));
+                   }
                 }
-             }
-         )
+            )
+         } else {
+             this.getApiData();
+         }
     }
     render() {
       return(
@@ -119,7 +124,6 @@ export default class List extends Component {
                   <Picker.Item label="Title" value="title" />
         </Picker>
         </View>
-      <Text>{this.state.search}</Text>
         <View>
         {
                this.state.data.map(
