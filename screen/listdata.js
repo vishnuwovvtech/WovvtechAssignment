@@ -96,7 +96,8 @@ export default class List extends Component {
                        return(
                         <>
                          <View >
-                         <Card key={i} onTouchStart={() => this.parseData(key)}>
+                        <TouchableOpacity onPress={() => this.parseData(key)}>
+                        <Card key={i} >
               
               <CardItem>
                   <View style={{flex: 1, flexDirection: 'row'}}>
@@ -139,6 +140,7 @@ export default class List extends Component {
                   </View>
               </CardItem>
             </Card>
+                        </TouchableOpacity>
                          </View>
                         </>
                        );
