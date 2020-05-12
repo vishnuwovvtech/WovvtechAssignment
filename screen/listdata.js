@@ -66,7 +66,7 @@ export default class List extends Component {
         // console.log('search',this.state.data.filter( ser => ser.title === this.state.filter));
         for (var i=0 ; i < this.state.data.length ; i++)
 {
-    if (this.state.data[0]['title'] == this.state.filter) {
+    if (this.state.data[i]['title'] == this.state.filter) {
         this.setState({searchdata: this.state.data[i]});
         
     }
