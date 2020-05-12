@@ -13,7 +13,8 @@ export default class List extends Component {
             filter: 'date', 
             data: [], 
             page: 0,
-            searchdata: []
+            searchdata: [],
+            tempArr: []
         }
     }
     
@@ -23,14 +24,33 @@ export default class List extends Component {
 
     onValueChange(val) {
         this.setState({filter: val});
-        if(val == 'title') {
-            this.state.data.sort();
-        } else if( val == 'date') {
-            this.state.data.sort(function(a, b){ 
-      
-                return new Date(a.created_at) - new Date(b.created_at); 
-            }); 
+        const temp = [];
+        for(var i = 0; i<= this.state.data.length; i++) {
+            console.log('data length', this.state.data[i].created_at_i);
+            for(var j=1; j <= this.state.data.length; j++) {
+                console.log('j', this.state.data[j].created_at_i);
+                if(this.state.data[i].created_at_i >= this.state.data[j].created_at_i) {
+                    temp.push(this.state.data[i]);
+                    console.log('temp', temp);
+                    console.log('greator')
+                } else {
+                    temp.push(this.state.data[j]);
+                    console.log('temp j', temp)
+                    console.log('lesser');
+                }
+            }
+           
         }
+        
+        console.log('temp arr',temp);
+        // if(val == 'title') {
+        //     this.state.data.sort();
+        // } else if( val == 'date') {
+        //     this.state.data.sort(function(a, b){ 
+      
+        //         return new Date(a.created_at) - new Date(b.created_at); 
+        //     }); 
+        // }
     }
      
     getApiData() {
@@ -41,6 +61,7 @@ export default class List extends Component {
              .then(res => {
                  console.log('res', res.data.hits);    
                  this.setState({data: res.data.hits});
+                
                 data.push(res.data.hits);
                 this.setState({data});
              })
@@ -59,16 +80,30 @@ export default class List extends Component {
     }
 
     parseData(key) {
-        console.log('key',key);
         this.props.navigation.push('Data', {jsondata: key});
     }
 
     search() {
-        const searchkey = this.state.search;
-        const index = this.state.data.findIndex(function(key, index){
-            return key.author === searchkey
-        });
-        console.log('filter', index);
+        // for(var i =0; i<= this.state.data.length; i++) {
+        //     if(this.state.data[i].title.search(this.state.search) > 1) {
+        //         console.log('search data', this.state.data[i].title.search(this.state.search) > 1 )
+        //     }
+            // const result = str.search(this.state.search);
+            
+        // }
+        
+        console.log('callaing ')
+         this.state.data.map(
+             (key, i) => {
+                //  console.log('search', key.title.search(this.state.search)); 
+                if(key.title.search(this.state.search)>-1) {
+                    console.log('found', this.state.tempArr[i]);
+                    this.state.data.push(this.state.data[i]);
+                    console.log('array', this.state.tempArr);
+                    alert(JSON.stringify(this.state.data[i]));
+                }
+             }
+         )
     }
     render() {
       return(
@@ -80,7 +115,7 @@ export default class List extends Component {
          <View style={{flex: 1, alignItems: 'center', justifyContent:'space-around', flexDirection: 'row', flexWrap: 'wrap'}}>
             <TextInput onChangeText={text => this.onhandleChange(text)} style={styles.inputField} />
 
-            <TouchableOpacity style={{backgroundColor: '#1d60cc', padding: 12}} onPress={this.search()}>
+            <TouchableOpacity style={{backgroundColor: '#1d60cc', padding: 12}} onPress={() => this.search()}>
                 <Text style={{color: '#ffffff'}}>Search</Text>
             </TouchableOpacity>
             <Picker note mode="dialog" onValueChange={(val) => this.onValueChange(val)} selectedValue={this.state.filter}  style={{width: "40%", }}>
@@ -88,7 +123,7 @@ export default class List extends Component {
                   <Picker.Item label="Title" value="title" />
         </Picker>
         </View>
-
+      <Text>{this.state.search}</Text>
         <View>
         {
                this.state.data.map(
