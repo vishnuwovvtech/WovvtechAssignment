@@ -27,7 +27,7 @@ export default class App extends Component {
         <NavigationContainer>
          <stack.Navigator>
            <stack.Screen name="Post List" component={List}/>
-          <stack.Screen name="Post Data" component={Data}/>
+          <stack.Screen name="Data" component={Data}/>
          </stack.Navigator>
         </NavigationContainer>
         </>

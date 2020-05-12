@@ -22,6 +22,14 @@ export default class List extends Component {
 
     onValueChange(val) {
         this.setState({filter: val});
+        if(val == 'title') {
+            this.state.data.sort();
+        } else if( val == 'date') {
+            this.state.data.sort(function(a, b){ 
+      
+                return new Date(a.created_at) - new Date(b.created_at); 
+            }); 
+        }
     }
      
     getApiData() {
@@ -40,96 +48,21 @@ export default class List extends Component {
              })
     }
    
-    // componentWillMount() {
-    //     setInterval(() => {
-    //         this.getApiData();
-    //         this.setState({page: this.state.page + 1});
-    //         console.log('page', this.state.page)
-    //     }, 1000);
-    // }
+    componentWillMount() {
+        setInterval(() => {
+            this.getApiData();
+            this.setState({page: this.state.page + 1});
+            console.log('page', this.state.page)
+        }, 3000);
+    }
 
     parseData(key) {
-        this.props.navigation.push('Post Data', { data : key});
+        this.props.navigation.push('Data', { data : key});
     }
     render() {
       return(
         <>
-        {/* <Container >
-          <Container style={{flex: 1, flexDirection:'row', alignItems: 'flex-start',}}>
-          
-          <TextInput onChangeText={text => this.onhandleChange(text)} style={styles.inputField}/>
-          
-         <Button style={styles.button} onPress={this.getApiData()}>
-             <Text>
-                 Search
-             </Text>
-         </Button>
-         <Picker note mode="dialog" onValueChange={(val) => this.onValueChange(val)}  style={{width: "40%"}}>
-                  <Picker.Item label="Date" value="created_at" />
-                  <Picker.Item label="Title" value="title" />
-        </Picker>
     
-        
-          </Container>
-          
-       
-        </Container>
-
-        <Container>
-           {
-               this.state.data.map(
-                   (key, i) => {
-                       return(
-                        <>
-                          <Card key={i}>
-              
-                            <CardItem>
-                                <View style={{flex: 1, flexDirection: 'row'}}>
-                                    <View>
-                                        <Text style={{fontWeight: 'bold'}}>Title :</Text>
-                                    </View>
-                                    <View>
-                                         <Text>{key.title}</Text>
-                                    </View>
-                                </View>
-                            </CardItem>
-                            <CardItem style={{marginTop: 0}}>
-                            <View style={{flex: 1, flexDirection: 'row'}}>
-                                    <View>
-                                        <Text style={{fontWeight: 'bold'}}>URL :</Text>
-                                    </View>
-                                    <View>
-                                         <Text>{key.url}</Text>
-                                    </View>
-                                </View>
-                            </CardItem>
-                            <CardItem style={{marginTop: 0}}>
-                            <View style={{flex: 1, flexDirection: 'row'}}>
-                                    <View>
-                                        <Text style={{fontWeight: 'bold'}}>Created At :</Text>
-                                    </View>
-                                    <View>
-                                         <Text>{key.created_at}</Text>
-                                    </View>
-                                </View>
-                            </CardItem>
-                            <CardItem style={{marginTop: 0}}>
-                            <View style={{flex: 1, flexDirection: 'row'}}>
-                                    <View>
-                                        <Text style={{fontWeight: 'bold'}}>Author :</Text>
-                                    </View>
-                                    <View>
-                                         <Text>{key.author}</Text>
-                                    </View>
-                                </View>
-                            </CardItem>
-                          </Card>
-                        </>
-                       );
-                   }
-               )
-           }
-        </Container> */}
 
  <ScrollView style={{flex:1}}>
          <View>
@@ -139,7 +72,7 @@ export default class List extends Component {
             <TouchableOpacity style={{backgroundColor: '#1d60cc', padding: 12}} onPress={this.getApiData()}>
                 <Text style={{color: '#ffffff'}}>Search</Text>
             </TouchableOpacity>
-            <Picker note mode="dialog" onValueChange={(val) => this.onValueChange(val)}  style={{width: "40%", }}>
+            <Picker note mode="dialog" onValueChange={(val) => this.onValueChange(val)} selectedValue={this.state.filter}  style={{width: "40%", }}>
                   <Picker.Item label="Date" value="created_at" />
                   <Picker.Item label="Title" value="title" />
         </Picker>
@@ -152,7 +85,7 @@ export default class List extends Component {
                        return(
                         <>
                          <View >
-                         <Card key={i}  onPress={this.parseData(key)}>
+                         <Card key={i} onPress={() => this.parseData(key)}>
               
               <CardItem>
                   <View style={{flex: 1, flexDirection: 'row'}}>
